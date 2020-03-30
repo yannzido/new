@@ -121,7 +121,6 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import _ from 'lodash';
 import { Permissions } from '@/global';
 import SubViewTitle from '@/components/ui/SubViewTitle.vue';
 import AddMembersDialog from './AddMembersDialog.vue';
