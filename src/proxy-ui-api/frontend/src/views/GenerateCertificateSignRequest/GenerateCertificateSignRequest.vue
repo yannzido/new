@@ -26,20 +26,13 @@
 <script lang="ts">
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
-import HelpIcon from '@/components/ui/HelpIcon.vue';
-import LargeButton from '@/components/ui/LargeButton.vue';
 import SubViewTitle from '@/components/ui/SubViewTitle.vue';
 import WizardPageCsrDetails from './WizardPageCsrDetails.vue';
 import WizardPageGenerateCsr from './WizardPageGenerateCsr.vue';
-
-import { Key, Token } from '@/types';
-import { RouteName, UsageTypes } from '@/global';
-import * as api from '@/util/api';
+import { RouteName } from '@/global';
 
 export default Vue.extend({
   components: {
-    HelpIcon,
-    LargeButton,
     SubViewTitle,
     WizardPageCsrDetails,
     WizardPageGenerateCsr,
