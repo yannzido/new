@@ -39,6 +39,8 @@ import org.niis.xroad.restapi.openapi.model.DistinguishedName;
 import org.niis.xroad.restapi.openapi.model.TimestampingService;
 import org.niis.xroad.restapi.openapi.model.Version;
 import org.niis.xroad.restapi.service.AnchorNotFoundException;
+import org.niis.xroad.restapi.service.ConfigurationDownloadException;
+import org.niis.xroad.restapi.service.ConfigurationVerifier;
 import org.niis.xroad.restapi.service.InternalTlsCertificateService;
 import org.niis.xroad.restapi.service.InvalidCertificateException;
 import org.niis.xroad.restapi.service.InvalidDistinguishedNameException;
@@ -214,5 +216,56 @@ public class SystemApiController implements SystemApi {
         } catch (AnchorNotFoundException e) {
             throw new InternalServerErrorException(new ErrorDeviation(ANCHOR_FILE_NOT_FOUND));
         }
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('UPLOAD_ANCHOR')")
+    public ResponseEntity<Void> replaceAnchor(Resource anchorResource) {
+        byte[] anchorBytes = ResourceUtils.springResourceToBytesOrThrowBadRequest(anchorResource);
+        try {
+            systemService.replaceAnchor(anchorBytes);
+        } catch (SystemService.InvalidAnchorInstanceException | SystemService.MalformedAnchorException e) {
+            throw new BadRequestException(e);
+        } catch (SystemService.AnchorUploadException | ConfigurationDownloadException
+                | ConfigurationVerifier.ConfigurationVerificationException e) {
+            throw new InternalServerErrorException(e);
+        }
+        return ApiUtil.createCreatedResponse("/api/system/anchor", null);
+    }
+
+    @Override
+    @PreAuthorize("hasAuthority('UPLOAD_ANCHOR')")
+    public ResponseEntity<Anchor> previewAnchor(Boolean verifyInstance, Resource anchorResource) {
+        byte[] anchorBytes = ResourceUtils.springResourceToBytesOrThrowBadRequest(anchorResource);
+        AnchorFile anchorFile = null;
+        try {
+            anchorFile = systemService.getAnchorFileFromBytes(anchorBytes, verifyInstance);
+        } catch (SystemService.InvalidAnchorInstanceException | SystemService.MalformedAnchorException e) {
+            throw new BadRequestException(e);
+        }
+        return new ResponseEntity<>(anchorConverter.convert(anchorFile), HttpStatus.OK);
+    }
+
+    /**
+     * For uploading an initial configuration anchor. The difference between this and {@link #uploadAnchor(Resource)}
+     * is that the anchor's instance does not get verified
+     * @param anchorResource
+     * @return
+     */
+    @Override
+    @PreAuthorize("hasAuthority('INIT_CONFIG')")
+    public ResponseEntity<Void> uploadInitialAnchor(Resource anchorResource) {
+        byte[] anchorBytes = ResourceUtils.springResourceToBytesOrThrowBadRequest(anchorResource);
+        try {
+            systemService.uploadInitialAnchor(anchorBytes);
+        } catch (SystemService.InvalidAnchorInstanceException | SystemService.MalformedAnchorException e) {
+            throw new BadRequestException(e);
+        } catch (SystemService.AnchorUploadException | ConfigurationDownloadException
+                | ConfigurationVerifier.ConfigurationVerificationException e) {
+            throw new InternalServerErrorException(e);
+        } catch (SystemService.AnchorAlreadyExistsException e) {
+            throw new ConflictException(e);
+        }
+        return ApiUtil.createCreatedResponse("/api/system/anchor", null);
     }
 }

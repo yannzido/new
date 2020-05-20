@@ -1,4 +1,4 @@
-import Router, { Route, NavigationGuard } from 'vue-router';
+import Router, { NavigationGuard, Route } from 'vue-router';
 import { sync } from 'vuex-router-sync';
 import TabsBase from '@/components/layout/TabsBase.vue';
 import AppLogin from '@/views/AppLogin.vue';
@@ -30,13 +30,18 @@ import KeyDetails from '@/views/KeyDetails/KeyDetails.vue';
 import CertificateDetails from '@/views/CertificateDetails/CertificateDetails.vue';
 import Service from '@/views/Service/Service.vue';
 import GenerateCertificateSignRequest from '@/views/GenerateCertificateSignRequest/GenerateCertificateSignRequest.vue';
+import AddKey from '@/views/AddKey/AddKey.vue';
 import store from '@/store';
 import { Permissions, RouteName } from '@/global';
-import ServiceEndpoints from '@/views/Service/Endpoints/Endpoints.vue';
 import ServiceParameters from '@/views/Service/Parameters/ServiceParameters.vue';
 import InternalCertificateDetails from '@/views/InternalCertificateDetails/InternalCertificateDetails.vue';
-import EndpointDetails from '@/views/Service/Endpoints/EndpointDetails.vue';
+import EndpointDetails from '@/views/Service/Endpoints/Endpoint/EndpointDetails.vue';
+import EndpointAccessRights from '@/views/Service/Endpoints/Endpoint/EndpointAccessRights.vue';
+import Endpoints from '@/views/Service/Endpoints/Endpoints.vue';
 import GenerateInternalCsr from '@/views/KeysAndCertificates/SecurityServerTlsCertificate/GenerateInternalCsr.vue';
+import CreateApiKeyStepper from '@/views/KeysAndCertificates/ApiKey/CreateApiKeyStepper.vue';
+import ServiceClientAccessRights from '@/views/Clients/ServiceClients/ServiceClientAccessRights.vue';
+import AddServiceClientAccessRights from '@/views/Clients/ServiceClients/AddServiceClientAccessRightsWizard.vue';
 
 // At the moment the vue router does not have a type for Next.
 // Using this solution was recommended in a github comment:
@@ -62,7 +67,7 @@ const router = new Router({
               path: '',
               component: SignAndAuthKeys,
               props: true,
-              meta: { permission: Permissions.VIEW_CLIENT_DETAILS },
+              meta: { permission: Permissions.VIEW_KEYS },
             },
             {
               name: RouteName.ApiKey,
@@ -79,6 +84,13 @@ const router = new Router({
               meta: { permission: Permissions.VIEW_CLIENT_ACL_SUBJECTS },
             },
           ],
+        },
+        {
+          name: RouteName.CreateApiKey,
+          path: '/keys/apikey/create',
+          component: CreateApiKeyStepper,
+          props: true,
+          meta: { permission: Permissions.VIEW_CLIENT_ACL_SUBJECTS },
         },
         {
           name: RouteName.GenerateInternalCSR,
@@ -119,9 +131,12 @@ const router = new Router({
         },
         {
           name: RouteName.AddSubsystem,
-          path: '/add-subsystem',
+          path: '/add-subsystem/:instanceId/:memberClass/:memberCode/:memberName',
           components: {
             default: AddSubsystem,
+          },
+          props: {
+            default: true,
           },
         },
         {
@@ -251,6 +266,22 @@ const router = new Router({
           meta: { permission: Permissions.VIEW_CLIENT_INTERNAL_CERT_DETAILS },
         },
         {
+          name: RouteName.ServiceClientAccessRights,
+          path: '/subsystem/:id/serviceclients/:serviceClientId',
+          props: { default: true },
+          components: {
+            default: ServiceClientAccessRights,
+          },
+        },
+        {
+          name: RouteName.AddServiceClientAccessRight,
+          path: '/subsystem/serviceclients/:id/add',
+          props: { default: true },
+          components: {
+            default: AddServiceClientAccessRights,
+          },
+        },
+        {
           name: RouteName.LocalGroup,
           path: '/localgroup/:clientId/:groupId',
           components: {
@@ -284,19 +315,27 @@ const router = new Router({
               props: { default: true },
             },
             {
-              name: RouteName.ServiceEndpoints,
+              name: RouteName.Endpoints,
               path: '/service/:clientId/:serviceId/endpoints',
               components: {
-                default: ServiceEndpoints,
+                default: Endpoints,
               },
             },
           ],
         },
         {
           name: RouteName.EndpointDetails,
-          path: '/endpoint/:id',
+          path: '/service/:clientId/:serviceId/endpoints/:id',
           components: {
             default: EndpointDetails,
+          },
+          props: { default: true },
+        },
+        {
+          name: RouteName.EndpointAccessRights,
+          path: '/service/:clientId/:serviceId/endpoints/:id/accessrights',
+          components: {
+            default: EndpointAccessRights,
           },
           props: { default: true },
         },
@@ -305,6 +344,14 @@ const router = new Router({
           path: '/generate-csr/:keyId',
           components: {
             default: GenerateCertificateSignRequest,
+          },
+          props: { default: true },
+        },
+        {
+          name: RouteName.AddKey,
+          path: '/add-key/:tokenId',
+          components: {
+            default: AddKey,
           },
           props: { default: true },
         },

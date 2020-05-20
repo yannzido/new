@@ -77,8 +77,8 @@ public class BackupService {
      */
     @Autowired
     public BackupService(BackupRepository backupRepository, ServerConfService serverConfService,
-                         ExternalProcessRunner externalProcessRunner,
-                         @Value("${script.generate-backup.path}") String generateBackupScriptPath) {
+            ExternalProcessRunner externalProcessRunner,
+            @Value("${script.generate-backup.path}") String generateBackupScriptPath) {
         this.backupRepository = backupRepository;
         this.serverConfService = serverConfService;
         this.externalProcessRunner = externalProcessRunner;
@@ -125,25 +125,27 @@ public class BackupService {
     /**
      * Generate a new backup file
      * @return
-     * @throws InterruptedException if the thread the backup process is interrupted and the backup fails
+     * @throws InterruptedException if the thread the backup process is interrupted and the backup fails. <b>The
+     * interrupted thread has already been handled with so you can choose to ignore this exception if you
+     * so please.</b>
      */
     public BackupFile generateBackup() throws InterruptedException {
         SecurityServerId securityServerId = serverConfService.getSecurityServerId();
         String filename = generateBackupFileName();
-        String fullPath =  backupRepository.getConfigurationBackupPath() + filename;
+        String fullPath = backupRepository.getConfigurationBackupPath() + filename;
         String[] args = new String[] {"-s", securityServerId.toShortString(), "-f", fullPath};
 
         try {
             log.info("Run configuration backup with command '"
                     + generateBackupScriptPath + " " + Arrays.toString(args) + "'");
 
-            List<String> output = externalProcessRunner.execute(generateBackupScriptPath, args);
+            ExternalProcessRunner.ProcessResult processResult = externalProcessRunner
+                    .executeAndThrowOnFailure(generateBackupScriptPath, args);
 
             log.info(" --- Backup script console output - START --- ");
-            log.info(String.join("\n", output));
+            log.info(String.join("\n", processResult.getProcessOutput()));
             log.info(" --- Backup script console output - END --- ");
         } catch (ProcessNotExecutableException | ProcessFailedException e) {
-            log.error("Failed to generate backup", e);
             throw new DeviationAwareRuntimeException(e, new ErrorDeviation(BACKUP_GENERATION_FAILED));
         }
 

@@ -12,11 +12,11 @@
       <v-stepper-items class="stepper-content">
         <!-- Step 1 -->
         <v-stepper-content step="1">
-          <WizardPageCsrDetails @cancel="cancel" @done="save" />
+          <WizardPageCsrDetails @cancel="cancel" @done="save" :showPreviousButton="false" />
         </v-stepper-content>
         <!-- Step 2 -->
         <v-stepper-content step="2">
-          <WizardPageGenerateCsr @cancel="cancel" @done="done" />
+          <WizardPageGenerateCsr @cancel="cancel" @previous="currentStep = 1" @done="done" />
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
@@ -27,9 +27,11 @@
 import Vue from 'vue';
 import { mapGetters } from 'vuex';
 import SubViewTitle from '@/components/ui/SubViewTitle.vue';
-import WizardPageCsrDetails from './WizardPageCsrDetails.vue';
-import WizardPageGenerateCsr from './WizardPageGenerateCsr.vue';
-import { RouteName } from '@/global';
+import WizardPageCsrDetails from '@/components/wizard/WizardPageCsrDetails.vue';
+import WizardPageGenerateCsr from '@/components/wizard/WizardPageGenerateCsr.vue';
+import { Key, Token } from '@/types';
+import { RouteName, UsageTypes } from '@/global';
+import * as api from '@/util/api';
 
 export default Vue.extend({
   components: {
@@ -48,9 +50,6 @@ export default Vue.extend({
       currentStep: 1,
     };
   },
-  computed: {
-    ...mapGetters(['localMembersIds']),
-  },
   methods: {
     save(): void {
       this.$store.dispatch('fetchCsrForm').then(
@@ -63,11 +62,11 @@ export default Vue.extend({
       );
     },
     cancel(): void {
-      this.$store.dispatch('resetState');
+      this.$store.dispatch('resetCsrState');
       this.$router.replace({ name: RouteName.SignAndAuthKeys });
     },
     done(): void {
-      this.$store.dispatch('resetState');
+      this.$store.dispatch('resetCsrState');
       this.$router.replace({ name: RouteName.SignAndAuthKeys });
     },
 
