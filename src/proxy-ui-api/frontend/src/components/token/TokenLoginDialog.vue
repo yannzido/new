@@ -83,7 +83,7 @@ export default Vue.extend({
         .put(`/tokens/${token.id}/login`, {
           password: this.pin,
         })
-        .then((res) => {
+        .then(() => {
           this.loading = false;
           this.$store.dispatch('showSuccess', 'keys.loggedIn');
           this.$emit('save');

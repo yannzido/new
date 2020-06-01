@@ -80,7 +80,7 @@
                 rounded
                 color="primary"
                 class="xrd-small-button"
-                @click="exportSSCertificate(ssCertificate.hash)"
+                @click="exportSSCertificate"
                 >{{ $t('action.export') }}</v-btn
               >
             </td>
@@ -201,7 +201,7 @@ export default Vue.extend({
             fileData: e.target.result,
           })
           .then(
-            (response) => {
+            () => {
               // Refresh the tls cert list
               this.fetchTlsCertificates(this.id);
             },
@@ -214,7 +214,7 @@ export default Vue.extend({
       reader.readAsArrayBuffer(fileList[0]);
     },
 
-    fetchServer(id: string): void {
+    fetchServer(): void {
       this.$store.dispatch('fetchServer').catch((error) => {
         this.$store.dispatch('showError', error);
       });
@@ -226,7 +226,7 @@ export default Vue.extend({
       });
     },
 
-    exportSSCertificate(hash: string): void {
+    exportSSCertificate(): void {
       this.$store.dispatch('downloadSSCertificate').catch((error) => {
         this.$store.dispatch('showError', error);
       });

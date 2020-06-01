@@ -313,7 +313,7 @@ export default Vue.extend({
           `/token-certificates/${this.selectedCert.certificate_details.hash}/register`,
           { address },
         )
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch('showSuccess', 'keys.certificateRegistered');
           this.$emit('refreshList');
         })
@@ -335,7 +335,7 @@ export default Vue.extend({
 
       api
         .remove(`/keys/${this.selectedKey.id}/csrs/${this.selectedCsr.id}`)
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch('showSuccess', 'keys.csrDeleted');
           this.$emit('refreshList');
         })

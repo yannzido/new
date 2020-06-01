@@ -3,11 +3,17 @@
     <v-card flat class="xrd-card">
       <v-container>
         <v-row no-gutters v-if="hasPermission(permissions.VIEW_ANCHOR)">
+<<<<<<< Updated upstream
           <v-col
             ><h3>
               {{ $t('systemParameters.configurationAnchor.title') }}
             </h3></v-col
           >
+=======
+          <v-col>
+            <h3>{{ $t('systemParameters.configurationAnchor.title') }}</h3>
+          </v-col>
+>>>>>>> Stashed changes
           <v-col class="text-right">
             <large-button
               data-test="system-parameters-configuration-anchor-download-button"
@@ -15,9 +21,15 @@
               :loading="downloadingAnchor"
               outlined
               :requires-permission="permissions.DOWNLOAD_ANCHOR"
+              >{{
+                $t('systemParameters.configurationAnchor.action.download')
+              }}</large-button
             >
+<<<<<<< Updated upstream
               {{ $t('systemParameters.configurationAnchor.action.download') }}
             </large-button>
+=======
+>>>>>>> Stashed changes
             <upload-configuration-anchor-dialog
               @uploaded="fetchConfigurationAnchor"
             />
@@ -62,11 +74,17 @@
           class="mt-10"
           v-if="hasPermission(permissions.VIEW_TSPS)"
         >
+<<<<<<< Updated upstream
           <v-col
             ><h3>
               {{ $t('systemParameters.timestampingServices.title') }}
             </h3></v-col
           >
+=======
+          <v-col>
+            <h3>{{ $t('systemParameters.timestampingServices.title') }}</h3>
+          </v-col>
+>>>>>>> Stashed changes
           <v-col class="text-right">
             <add-timestamping-service-dialog
               :configured-timestamping-services="configuredTimestampingServices"
@@ -115,11 +133,19 @@
           class="mt-10"
           v-if="hasPermission(permissions.GENERATE_AUTH_CERT_REQ)"
         >
+<<<<<<< Updated upstream
           <v-col
             ><h3>
               {{ $t('systemParameters.approvedCertificateAuthorities.title') }}
             </h3></v-col
           >
+=======
+          <v-col>
+            <h3>
+              {{ $t('systemParameters.approvedCertificateAuthorities.title') }}
+            </h3>
+          </v-col>
+>>>>>>> Stashed changes
         </v-row>
         <v-row
           no-gutters
@@ -223,7 +249,9 @@ export default Vue.extend({
   },
   computed: {
     orderedCertificateAuthorities(): CertificateAuthority[] {
-      return this.certificateAuthorities.sort((authorityA, authorityB) =>
+      const temp = this.certificateAuthorities;
+
+      return temp.sort((authorityA, authorityB) =>
         authorityA.path.localeCompare(authorityB.path),
       );
     },

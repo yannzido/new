@@ -44,13 +44,10 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { mapGetters } from 'vuex';
 import SubViewTitle from '@/components/ui/SubViewTitle.vue';
 import WizardPageCsrDetails from '@/components/wizard/WizardPageCsrDetails.vue';
 import WizardPageGenerateCsr from '@/components/wizard/WizardPageGenerateCsr.vue';
-import { Key, Token } from '@/openapi-types';
-import { RouteName, UsageTypes } from '@/global';
-import * as api from '@/util/api';
+import { RouteName } from '@/global';
 
 export default Vue.extend({
   components: {
@@ -72,7 +69,7 @@ export default Vue.extend({
   methods: {
     save(): void {
       this.$store.dispatch('fetchCsrForm').then(
-        (response) => {
+        () => {
           this.currentStep = 2;
         },
         (error) => {
@@ -83,7 +80,7 @@ export default Vue.extend({
     cancel(): void {
       this.$router.replace({ name: RouteName.SignAndAuthKeys });
     },
-    fetchKeyData(id: string): void {
+    fetchKeyData(): void {
       this.$store.dispatch('fetchKeyData').catch((error) => {
         this.$store.dispatch('showError', error);
       });
@@ -101,7 +98,7 @@ export default Vue.extend({
   },
   created() {
     this.$store.commit('storeKeyId', this.keyId);
-    this.fetchKeyData(this.keyId);
+    this.fetchKeyData();
     this.fetchLocalMembers();
     this.fetchCertificateAuthorities();
   },

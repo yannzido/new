@@ -72,6 +72,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
+import { Prop } from 'vue/types/options';
 import LargeButton from '@/components/ui/LargeButton.vue';
 import { Client } from '@/openapi-types';
 
@@ -85,7 +86,7 @@ export default Vue.extend({
       required: true,
     },
     selectableClients: {
-      type: Array,
+      type: Array as Prop<Client[]>,
       default() {
         return [];
       },
@@ -95,7 +96,7 @@ export default Vue.extend({
   data() {
     return {
       search: '',
-      selectedMember: undefined,
+      selectedMember: undefined as Client | undefined,
     };
   },
   methods: {
@@ -112,10 +113,10 @@ export default Vue.extend({
         return this.selectableClients;
       }
 
-      return this.selectableClients.filter((member: any) => {
-        if (member?.member_name.toLowerCase().includes(tempSearch)) {
+      return this.selectableClients.filter((member: Client) => {
+        if (member?.member_name?.toLowerCase().includes(tempSearch)) {
           return true;
-        } else if (member?.id.toLowerCase().includes(tempSearch)) {
+        } else if (member?.id?.toLowerCase().includes(tempSearch)) {
           return true;
         }
 

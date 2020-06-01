@@ -88,7 +88,7 @@ export const mutations: MutationTree<UserState> = {
 };
 
 export const actions: ActionTree<UserState, RootState> = {
-  login({ commit, dispatch }, authData): Promise<any> {
+  login({ commit }, authData): Promise<any> {
     const data = `username=${authData.username}&password=${authData.password}`;
 
     return axiosAuth({
@@ -107,7 +107,7 @@ export const actions: ActionTree<UserState, RootState> = {
       });
   },
 
-  async fetchUserData({ commit, dispatch }) {
+  async fetchUserData({ commit }) {
     return axios
       .get('/user')
       .then((res) => {
@@ -148,7 +148,7 @@ export const actions: ActionTree<UserState, RootState> = {
       });
   },
 
-  logout({ commit, dispatch }) {
+  logout({ commit }) {
     // Clear auth data
     commit('clearAuthData');
 

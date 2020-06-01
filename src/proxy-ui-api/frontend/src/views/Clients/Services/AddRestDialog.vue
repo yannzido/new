@@ -134,7 +134,7 @@ export default Vue.extend({
           rest_service_code: this.serviceCode,
           type: this.serviceType,
         })
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch(
             'showSuccess',
             this.serviceType === 'OPENAPI3'

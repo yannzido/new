@@ -96,7 +96,7 @@ export default Vue.extend({
           path,
           service_code: this.service.service_code,
         })
-        .then((res: any) => {
+        .then(() => {
           this.$store.dispatch(
             'showSuccess',
             'endpoints.saveNewEndpointSuccess',

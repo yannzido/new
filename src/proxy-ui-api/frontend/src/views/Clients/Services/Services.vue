@@ -321,7 +321,7 @@ export default Vue.extend({
 
       api
         .put(`/service-descriptions/${serviceDesc.id}/enable`, {})
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch('showSuccess', 'services.enableSuccess');
         })
         .catch((error) => {
@@ -347,7 +347,7 @@ export default Vue.extend({
         .put(`/service-descriptions/${subject.id}/disable`, {
           disabled_notice: notice,
         })
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch('showSuccess', 'services.disableSuccess');
         })
         .catch((error) => {
@@ -380,7 +380,7 @@ export default Vue.extend({
           url,
           type: this.serviceTypeEnum.WSDL,
         })
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch('showSuccess', 'services.wsdlAdded');
           this.addBusy = false;
           this.fetchData();
@@ -413,7 +413,7 @@ export default Vue.extend({
           type: this.serviceTypeEnum.WSDL,
           ignore_warnings: true,
         })
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch('showSuccess', 'services.wsdlAdded');
         })
         .catch((error) => {
@@ -453,7 +453,7 @@ export default Vue.extend({
         .put(`/service-descriptions/${serviceDescription.id}/refresh`, {
           ignore_warnings: false,
         })
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch('showSuccess', 'services.refreshed');
           this.fetchData();
         })
@@ -477,7 +477,7 @@ export default Vue.extend({
         .put(`/service-descriptions/${this.refreshId}/refresh`, {
           ignore_warnings: true,
         })
-        .then((res) => {
+        .then(() => {
           this.$store.dispatch('showSuccess', 'services.refreshed');
         })
         .catch((error) => {

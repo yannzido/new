@@ -232,7 +232,7 @@ export default Vue.extend({
         .post(`/local-groups/${this.groupId}/members`, {
           items: selectedIds,
         })
-        .then((res) => {
+        .then(() => {
           this.fetchData(this.clientId, this.groupId);
         })
         .catch((error) => {

@@ -145,10 +145,10 @@ export const mutations: MutationTree<TokensState> = {
 };
 
 export const actions: ActionTree<TokensState, RootState> = {
-  expandToken({ commit, rootGetters }, id: string) {
+  expandToken({ commit }, id: string) {
     commit('setTokenExpanded', id);
   },
-  hideToken({ commit, rootGetters }, id: string) {
+  hideToken({ commit }, id: string) {
     commit('setTokenHidden', id);
   },
   uploadCertificate({ commit, state }, data) {
@@ -158,7 +158,7 @@ export const actions: ActionTree<TokensState, RootState> = {
       },
     });
   },
-  fetchTokens({ commit, rootGetters }, id: string) {
+  fetchTokens({ commit }, id: string) {
     // Fetch tokens from backend
     return api
       .get(`/tokens`)
@@ -182,7 +182,7 @@ export const actions: ActionTree<TokensState, RootState> = {
       });
   },
 
-  setSelectedToken({ commit, dispatch, rootGetters }, token: Token) {
+  setSelectedToken({ commit }, token: Token) {
     commit('setSelectedToken', token);
   },
 };

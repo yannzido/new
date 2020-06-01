@@ -157,7 +157,7 @@ export default Vue.extend({
 
       api
         .patch(`/keys/${this.id}`, this.key)
-        .then((res: any) => {
+        .then(() => {
           this.saveBusy = false;
           this.$store.dispatch('showSuccess', 'keys.keySaved');
           this.close();
@@ -196,7 +196,7 @@ export default Vue.extend({
 
       api
         .remove(`/keys/${this.id}`)
-        .then((res: any) => {
+        .then(() => {
           this.$store.dispatch('showSuccess', 'keys.keyDeleted');
           this.close();
         })
