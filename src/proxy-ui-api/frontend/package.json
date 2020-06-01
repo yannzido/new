@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "rm -f src/openapi-types.ts && npm run generate-types && vue-cli-service serve",
+    "build": "rm -f src/openapi-types.ts && npm run generate-types && vue-cli-service build",
     "lint": "vue-cli-service lint",
     "build:report": "vue-cli-service build --report",
     "test:unit": "vue-cli-service test:unit",
@@ -45,16 +45,12 @@
     "@vue/eslint-config-typescript": "^5.0.1",
     "@vue/test-utils": "^1.0.0-beta.20",
     "chromedriver": "80.0.1",
-<<<<<<< HEAD
     "deepmerge": "^4.2.2",
-    "dtsgenerator": "2.4.1",
+    "dtsgenerator": "2.5.1",
     "eslint": "^6.7.2",
     "eslint-plugin-prettier": "^3.1.1",
     "eslint-plugin-vue": "^6.1.2",
     "fibers": "^4.0.2",
-=======
-    "dtsgenerator": "2.5.0",
->>>>>>> ed4362713531eeffff838731c07a729ad5806f5d
     "node-sass": "^4.12.0",
     "npm-audit-resolver": "2.2.0",
     "prettier": "^1.19.1",
