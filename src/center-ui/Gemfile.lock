@@ -55,15 +55,18 @@ GEM
     addressable (2.4.0)
     arel (3.0.3)
     builder (3.0.4)
+    concurrent-ruby (1.1.10)
     erubis (2.7.0)
     foreigner (1.7.4)
       activerecord (>= 3.0.0)
     hike (1.2.3)
-    i18n (0.7.0)
+    i18n (0.9.5)
+      concurrent-ruby (~> 1.0)
     jar-dependencies (0.4.0)
     jdbc-postgres (9.2.1002.1)
     jdbc-sqlite3 (3.7.2.1)
     journey (1.0.4)
+    json (1.8.3)
     json (1.8.3-java)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -71,6 +74,7 @@ GEM
     mime-types (1.25.1)
     multi_json (1.12.1)
     polyglot (0.3.5)
+    psych (3.0.3)
     psych (3.0.3-java)
       jar-dependencies (>= 0.1.7)
     rack (1.4.7)
@@ -114,6 +118,7 @@ GEM
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   activerecord-jdbcpostgresql-adapter (~> 1.2.9)
