@@ -64,6 +64,7 @@ GEM
     jdbc-postgres (9.2.1002.1)
     jdbc-sqlite3 (3.7.2.1)
     journey (1.0.4)
+    json (1.8.3)
     json (1.8.3-java)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -71,6 +72,7 @@ GEM
     mime-types (1.25.1)
     multi_json (1.12.1)
     polyglot (0.3.5)
+    psych (3.0.3)
     psych (3.0.3-java)
       jar-dependencies (>= 0.1.7)
     rack (1.4.7)
@@ -110,10 +112,11 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.52)
+    tzinfo (0.3.61)
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   activerecord-jdbcpostgresql-adapter (~> 1.2.9)
