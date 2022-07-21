@@ -44,6 +44,7 @@ GEM
     hike (1.2.3)
     i18n (0.7.0)
     journey (1.0.4)
+    json (1.8.3)
     json (1.8.3-java)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -88,10 +89,11 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.52)
+    tzinfo (0.3.61)
 
 PLATFORMS
   java
+  ruby
 
 DEPENDENCIES
   center-common!
